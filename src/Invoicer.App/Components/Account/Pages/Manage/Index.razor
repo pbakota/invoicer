@@ -1,0 +1,75 @@
+﻿@page "/Account/Manage"
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Identity
+@using Invoicer.Models
+
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject IdentityUserAccessor UserAccessor
+@inject IdentityRedirectManager RedirectManager
+@inject IStringLocalizer<I18N> Loc
+
+<PageTopTitle Text=@Loc["Profile.Text.Profile"] />
+
+<StatusMessage />
+<div class="row">
+    <div class="col-md-6">
+        <EditForm Model="Input" FormName="profile" OnValidSubmit="OnValidSubmitAsync" method="post">
+            <DataAnnotationsValidator />
+            <div class="form-floating mb-3 login-form">
+                <input type="text" value="@username" class="form-control" disabled />
+                <label for="username" class="form-label">@Loc["Profile.Text.Username"]</label>
+            </div>
+            <div class="form-floating mb-3 login-form">
+                <InputText @bind-Value="Input.PhoneNumber" class="form-control" />
+                <label for="phone-number" class="form-label">@Loc["Profile.Text.PhoneNumber"]</label>
+                <ValidationMessage For="() => Input.PhoneNumber" class="text-danger" />
+            </div>
+            <RzButton ButtonType="ButtonType.Submit" Icon="done" Text=@Loc["Button.Save"] />
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private ApplicationUser user = default!;
+    private string? username;
+    private string? phoneNumber;
+
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    [SupplyParameterFromForm]
+    private InputModel Input { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await UserAccessor.GetRequiredUserAsync(HttpContext);
+        username = await UserManager.GetUserNameAsync(user);
+        phoneNumber = await UserManager.GetPhoneNumberAsync(user);
+
+        Input.PhoneNumber ??= phoneNumber;
+    }
+
+    private async Task OnValidSubmitAsync()
+    {
+        if (Input.PhoneNumber != phoneNumber)
+        {
+            var setPhoneResult = await UserManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+            if (!setPhoneResult.Succeeded)
+            {
+                RedirectManager.RedirectToCurrentPageWithStatus("Error: Failed to set phone number.", HttpContext);
+            }
+        }
+
+        await SignInManager.RefreshSignInAsync(user);
+        RedirectManager.RedirectToCurrentPageWithStatus("Your profile has been updated", HttpContext);
+    }
+
+    private sealed class InputModel
+    {
+        [Phone]
+        [Display(Name = "Phone number")]
+        public string? PhoneNumber { get; set; }
+    }
+}

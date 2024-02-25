@@ -1,0 +1,102 @@
+﻿@implements IDisposable
+
+@inject NavigationManager NavigationManager
+@inject IStringLocalizer<I18N> Loc
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">@Loc["NavMenu.Invoicer.App"]</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+
+    <NavProfileMenu/>
+
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <RadzenIcon class="bi" Icon="home" IconColor="white" /> @Loc["NavMenu.Home"]
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="taxes">
+                <RadzenIcon class="bi" Icon="monetization_on" IconColor="white" /> @Loc["NavMenu.Taxes"]
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="articles">
+                <RadzenIcon class="bi" Icon="category" IconColor="white" /> @Loc["NavMenu.Articles"]
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="partners">
+                <RadzenIcon class="bi" Icon="people" IconColor="white" /> @Loc["NavMenu.Partners"]
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="invoices">
+                <RadzenIcon class="bi" Icon="receipt_long" IconColor="white" /> @Loc["NavMenu.Invoices"]
+            </NavLink>
+        </div>
+
+        <AuthorizeView Roles="admin">
+            <hr/>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="settings">
+                    <RadzenIcon class="bi" Icon="settings" IconColor="white" /> @Loc["NavMenu.Settings"]
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="users">
+                    <RadzenIcon class="bi" Icon="manage_accounts" IconColor="white" /> @Loc["NavMenu.ManageUsers"]
+                </NavLink>
+            </div>
+            @if (AppConstants.IsElectronApp)
+            {
+                #pragma warning disable CS0162
+                <hr/>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="backup">
+                        <RadzenIcon class="bi" Icon="backup_table" IconColor="white"/> @Loc["NavMenu.BackupDatabase"]
+                    </NavLink>
+                </div>
+
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="restore">
+                        <RadzenIcon class="bi" Icon="restore" IconColor="white"/> @Loc["NavMenu.RestoreDatabase"]
+                    </NavLink>
+                </div>
+            }
+        </AuthorizeView>
+
+    </nav>
+</div>
+
+@code {
+    private string? currentUrl;
+
+    protected override void OnInitialized()
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}

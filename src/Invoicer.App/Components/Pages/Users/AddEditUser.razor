@@ -1,0 +1,81 @@
+﻿@page "/users/new"
+@page "/users/edit/{_id}"
+@attribute [Authorize(Roles = "admin")]
+
+<Loading Condition="@(() => _model is null)">
+    <ChildContent>
+        <div class="d-flex justify-content-center">
+            <div class="container mt-3">
+                <PageTopTitle Text="@TopRowPageTitle" />
+
+                <RadzenCard class="w-100 mb-4 rz-shadow-7" Variant="Variant.Outlined">
+                    <RadzenTemplateForm TItem="Models.ApplicationUser" Data="@_model" InvalidSubmit="@OnInvalidSubmit" @ref="_form" >
+
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["User.Text.Username"]" Variant="Variant.Outlined" Name="Username"/>
+                            </div>
+                            <div class="col">
+                                <RadzenTextBox style="display: block" @bind-Value="@_model.UserName" Name="Username"
+                                    class="w-100" Disabled="true"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["User.Text.Email"]" Variant="Variant.Outlined" Name="Email" />
+                            </div>
+                            <div class="col-md-2">
+                                <RadzenTextBox style="display: block" @bind-Value="@_model.Email" Name="Email"
+                                    class="w-100" />
+                                <RadzenRequiredValidator Component="Email" Text="@Loc["Text.Required"]" Popup="false"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["User.Text.PhoneNumber"]" Variant="Variant.Outlined" Name="PhoneNumber" />
+                            </div>
+                            <div class="col-md-2">
+                                <RadzenTextBox style="display: block" @bind-Value="@_model.PhoneNumber" Name="PhoneNumber"
+                                    class="w-100" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["User.Text.Password"]" Variant="Variant.Outlined" Name="Password" />
+                            </div>
+                            <div class="col-md-2">
+                                <RadzenTextBox style="display: block" @bind-Value="@_password" Name="Password"
+                                               class="w-100" />
+                                <RadzenRequiredValidator Component="Password" Text="@Loc["Text.Required"]" Popup="false" Visible="@(!_editMode)"/>
+                            </div>
+                        </div>
+
+                        <AuthorizeView Context="authContext">
+                            <div class="row mb-3">
+                                <div class="col-md-2">
+                                    <RadzenLabel class="fw-bold" Text="@Loc["User.Text.Roles"]" Variant="Variant.Outlined" Component="Roles" />
+                                </div>
+                                <div class="col-md-5">
+                                    <RadzenDropDown @bind-Value="@_selectedRoles" Data="@_roles" TextProperty="Name" ValueProperty="Id" Name="Roles"
+                                                    Multiple="true" AllowClear="true" Placeholder=@Loc["User.Text.SelectRole"] Chips="true" 
+                                                    Disabled="@(_editMode && authContext.User.Identity!.Name!.Equals(_model.UserName, StringComparison.OrdinalIgnoreCase))"/>
+                                    <RadzenRequiredValidator Component="Roles" Text="@Loc["Text.Required"]" Popup="false"/>
+                                </div>
+                            </div>
+                        </AuthorizeView>
+
+                        <div class="ms-auto text-end mt-1">
+                            <RadzenButton Click="@SaveClick" ButtonType="ButtonType.Button" Text="@Loc["Button.Save"]" Icon="done"
+                                ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Medium" />
+                            <RadzenButton Click="@CancelClick" ButtonType="ButtonType.Button" Text="@Loc["Button.Cancel"]" Icon="clear"
+                                ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Medium" />
+                        </div>
+                    </RadzenTemplateForm>
+                </RadzenCard>
+            </div>
+        </div>
+    </ChildContent>
+</Loading>

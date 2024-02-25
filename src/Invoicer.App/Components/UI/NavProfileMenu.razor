@@ -1,0 +1,40 @@
+﻿@implements IDisposable
+
+@inject NavigationManager NavigationManager
+@inject IStringLocalizer<I18N> Loc
+
+<div class="px-3 nav-profile">
+    <AuthorizeView>
+        <div class="mt-1">
+            <a href="Account/Manage" class="btn btn-primary w-100">@context.User.Identity?.Name</a>
+        </div>
+        <div class="mt-1">
+            <form action="Account/Logout" method="post">
+                <AntiforgeryToken />
+                <input type="hidden" name="ReturnUrl" value="" />
+                <button class="btn btn-primary w-100">@Loc["NavMenu.Logout"]</button>
+            </form>
+        </div>
+    </AuthorizeView>
+</div>
+
+@code {
+    private string? currentUrl;
+
+    protected override void OnInitialized()
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}

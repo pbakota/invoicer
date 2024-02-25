@@ -1,0 +1,71 @@
+﻿<div class="row">
+    
+    <div class="col-2">
+        <div class="row">
+            <div class="col">
+                <RadzenLabel class="fw-bold" Text="@Loc["InvoiceItem.Code"]" Variant="Variant.Outlined" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <RadzenTextBox Disabled="true" @bind-Value=@_model.Article.Code Name="Code" class="w-100" />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-5">
+        <div class="row">
+            <div class="col">
+                <RadzenLabel class="fw-bold" Text="@Loc["InvoiceItem.Name"]" Variant="Variant.Outlined" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <RadzenTextBox Disabled="true" @bind-Value=@_model.Article.Name Name="Name" class="w-100" />
+            </div>
+        </div>
+    </div>
+
+    <div class="col-2">
+        <div class="row">
+            <div class="col">
+                <RadzenLabel class="fw-bold" Text="@Loc["InvoiceItem.Qty"]" Variant="Variant.Outlined" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <RadzenNumeric Min="0" Format="#0.00" @bind-Value=@_model.Qty Name="Qty" class="w-75" />
+                <RadzenText TextStyle="TextStyle.Overline">@_model.Article.UOM</RadzenText>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-2">
+        <div class="row">
+            <div class="col">
+                <RadzenLabel class="fw-bold" Text="@Loc["InvoiceItem.Price"]" Variant="Variant.Outlined" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <RadzenNumeric Min="0" Format="#0.00" @bind-Value=@_model.Price Name="Price" class="w-75" />
+                <RadzenText TextStyle="TextStyle.Overline">@AppConstants.VALUTA</RadzenText>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-1">
+        <div class="row">
+            <div class="col">
+                <RadzenLabel class="fw-bold" Text="@Loc["InvoiceItem.Rabat"]" Variant="Variant.Outlined" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <RadzenNumeric Min="0" Max="100" Step="1" Format="#0" @bind-Value=@_model.Rabat Name="Rabat" class="w-75" />
+                <RadzenText TextStyle="TextStyle.Overline">%</RadzenText>
+            </div>
+        </div>
+    </div>
+
+</div>

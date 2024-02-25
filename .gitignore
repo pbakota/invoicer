@@ -1,0 +1,4 @@
+data/invoicer.db*
+src/Invoicer.App/appsettings.Development.json
+releases/**
+**/invoicer-linux-x64.tgz

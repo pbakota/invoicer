@@ -1,0 +1,40 @@
+﻿<RadzenDataGrid @ref=_grid Count="@_count" Data="@_items" AllowColumnResize="true" AllowSorting="false" AllowFiltering="false"
+    AllowPaging="false" RowSelect="() => {}" Responsive="true" TItem="Models.InvoiceItem">
+    <Columns>
+        <RadzenDataGridColumn TItem="Models.InvoiceItem" Property="Article.Code" Title="@Loc["InvoiceItem.Code"]"
+            Width="120px" />
+        <RadzenDataGridColumn TItem="Models.InvoiceItem" Property="Article.Name" Title="@Loc["InvoiceItem.Name"]"
+            Resizable="true" />
+        <RadzenDataGridColumn TItem="Models.InvoiceItem" Property="Qty" Title="@Loc["InvoiceItem.Qty"]" Width="60px" />
+        <RadzenDataGridColumn TItem="Models.InvoiceItem" Property="UOM" Title="@Loc["InvoiceItem.UOM"]" Width="60px" />
+        <RadzenDataGridColumn TItem="Models.InvoiceItem" Property="Price" Title="@Loc["InvoiceItem.Price"]" Width="160px"
+            TextAlign="TextAlign.End">
+            <Template Context="c">
+                @String.Format("{0:N2} {1}", c.Price, AppConstants.VALUTA)
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Models.InvoiceItem" Property="TaxRate" Title="@Loc["InvoiceItem.TaxRate"]" Width="60px" TextAlign="TextAlign.End">
+            <Template Context="c">
+                @string.Format("{0}%", c.TaxRate)
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Models.InvoiceItem" Property="Rabat" Title="@Loc["InvoiceItem.Rabat"]" Width="60px" TextAlign="TextAlign.End">
+            <Template Context="c">
+                @string.Format("{0}%", c.Rabat)
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Models.InvoiceItem" Property="Price" Title="@Loc["InvoiceItem.Amount"]" Width="160px"
+            TextAlign="TextAlign.End">
+            <Template Context="c">
+                @String.Format("{0:N2} {1}", PriceHelper.CalculateAmount(c), AppConstants.VALUTA)
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="Models.InvoiceItem" Title="@Loc["Text.Actions"]" Width="100px"
+            TextAlign="TextAlign.Center">
+            <Template Context="detail">
+                <RadzenButton Text="@Loc["Button.Remove"]" Click="(e) => DeleteButtonClick(e, detail.Id)"
+                    ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Small" />
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>

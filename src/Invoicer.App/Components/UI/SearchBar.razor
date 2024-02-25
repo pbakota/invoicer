@@ -1,0 +1,12 @@
+﻿<div class="row mb-1">
+    <div class="col">
+        <SearchBox OnSearch=@OnSearch />
+    </div>
+    @if (AddVisible)
+    {
+        <div class="col text-end">
+            <RadzenButton Click=@AddClick Text=@AddText Icon="add" ButtonStyle="ButtonStyle.Primary"
+                Size="ButtonSize.Medium" />
+        </div>
+    }
+</div>

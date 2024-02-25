@@ -1,0 +1,160 @@
+﻿@page "/partners/edit/{_id:int?}"
+@inherits AddEditPage<Models.Partner>
+
+<Loading Condition="@(() => _model is null)">
+    <ChildContent>
+        <div class="d-flex justify-content-center">
+            <div class="container mt-3">
+                <PageTopTitle Text=@TopRowPageTitle />
+
+                <RadzenCard class="w-100 mb-4 rz-shadow-7" Variant="Variant.Outlined">
+                    <RadzenTemplateForm TItem="Models.Partner" Data=@_model InvalidSubmit=@OnInvalidSubmit @ref=_form >
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Partner.Code"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col">
+                                <RadzenTextBox style="display: block" @bind-Value=@_model.Code Name="Code"
+                                    class="w-100" />
+                                <RadzenRequiredValidator Component="Code" Text="@Loc["Text.Required"]" Popup="false" />
+                                <RadzenCustomValidator Component="Code" Validator="() => _validCode"
+                                    Text="@Loc["Partner.Code.Exist"]" Popup="false" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Partner.Name"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col">
+                                <RadzenTextBox style="display: block" @bind-Value=@_model.Name Name="Name"
+                                    class="w-100" />
+                                <RadzenRequiredValidator Component="Name" Text="@Loc["Text.Required"]" Popup="false" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Partner.Address"]"
+                                    Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col">
+                                <RadzenTextBox style="display: block" @bind-Value=@_model.Address class="w-100" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="row mb-3">
+                                    <div class="col-md-2">
+                                        <RadzenLabel class="fw-bold" Text="@Loc["Partner.City"]"
+                                            Variant="Variant.Outlined" />
+                                    </div>
+                                    <div class="col">
+                                        <RadzenTextBox style="display: block" @bind-Value=@_model.City class="w-100" />
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <RadzenLabel class="fw-bold" Text="@Loc["Partner.PostalCode"]"
+                                            Variant="Variant.Outlined" />
+                                    </div>
+                                    <div class="col">
+                                        <RadzenTextBox style="display: block" @bind-Value=@_model.PostalCode
+                                            class="w-100" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="row mb-3">
+                                    <div class="col-md-2">
+                                        <RadzenLabel class="fw-bold" Text="@Loc["Partner.PIB"]"
+                                            Variant="Variant.Outlined" />
+                                    </div>
+                                    <div class="col">
+                                        <RadzenTextBox style="display: block" @bind-Value=@_model.PIB class="w-100" />
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <RadzenLabel class="fw-bold" Text="@Loc["Partner.MaticniBroj"]"
+                                            Variant="Variant.Outlined" />
+                                    </div>
+                                    <div class="col">
+                                        <RadzenTextBox style="display: block" @bind-Value=@_model.MaticniBroj
+                                            class="w-100" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="row mb-3">
+                                    <div class="col-md-2">
+                                        <RadzenLabel class="fw-bold" Text="@Loc["Partner.Phone"]"
+                                            Variant="Variant.Outlined" />
+                                    </div>
+                                    <div class="col">
+                                        <RadzenTextBox style="display: block" @bind-Value=@_model.Phone class="w-100" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <RadzenLabel class="fw-bold" Text="@Loc["Partner.Email"]"
+                                            Variant="Variant.Outlined" />
+                                    </div>
+                                    <div class="col">
+                                        <RadzenTextBox style="display: block" @bind-Value=@_model.Email class="w-100" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="row mb-3">
+                                    <div class="col-md-2">
+                                        <RadzenLabel class="fw-bold" Text="@Loc["Partner.BankAccount"]"
+                                            Variant="Variant.Outlined" />
+                                    </div>
+                                    <div class="col">
+                                        <RadzenTextBox style="display: block" @bind-Value=@_model.BankAccount
+                                            class="w-100" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <RadzenLabel class="fw-bold" Text="@Loc["Partner.BankName"]"
+                                            Variant="Variant.Outlined" />
+                                    </div>
+                                    <div class="col">
+                                        <RadzenTextBox style="display: block" @bind-Value=@_model.BankName
+                                            class="w-100" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Partner.PartnerType"]"
+                                    Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col-md-2">
+                                <RadzenDropDown @bind-Value=@_selectedPartnerType Data=@_partnerTypes
+                                    Style="display: block" Name="PartnerType" Disabled="true"/>
+                                <RadzenRequiredValidator Component="PartnerType" Text="@Loc["Text.Required"]"
+                                    Popup="false" />
+                            </div>
+                        </div>
+
+                        <div class="ms-auto text-end mt-1">
+                            <RadzenButton Click="@SaveClick" ButtonType="ButtonType.Button" Text="@Loc["Button.Save"]" Icon="done"
+                                ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Medium" />
+                            <RadzenButton Click="@CancelClick" Text="@Loc["Button.Cancel"]" Icon="clear"
+                                ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Medium" />
+                        </div>
+                    </RadzenTemplateForm>
+                </RadzenCard>
+            </div>
+        </div>
+    </ChildContent>
+</Loading>

@@ -1,0 +1,80 @@
+﻿@page "/articles/edit/{_id:int?}"
+@inherits AddEditPage<Models.Article>
+
+<Loading Condition="@(() => _model is null)">
+    <ChildContent>
+        <div class="d-flex justify-content-center">
+            <div class="container mt-3">
+                <PageTopTitle Text=@TopRowPageTitle />
+
+                <RadzenCard class="w-100 mb-4 rz-shadow-7" Variant="Variant.Outlined">
+                    <RadzenTemplateForm TItem="Models.Article" Data=@_model InvalidSubmit=@OnInvalidSubmit @ref=_form >
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Article.Code"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col">
+                                <RadzenTextBox style="display: block" @bind-Value=@_model.Code Name="Code"
+                                    class="w-100" />
+                                <RadzenRequiredValidator Component="Code" Text="@Loc["Required"]" Popup="false" />
+                                <RadzenCustomValidator Component="Code" Validator="() => _validCode"
+                                    Text="@Loc["Article.Code.Exist"]" Popup="false" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Article.Name"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col">
+                                <RadzenTextBox style="display: block" @bind-Value=@_model.Name Name="Name"
+                                    class="w-100" />
+                                <RadzenRequiredValidator Component="Name" Text="@Loc["Text.Required"]" Popup="false" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Article.UOM"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col-md-2">
+                                <RadzenTextBox style="display: block" @bind-Value=@_model.UOM Name="UOM"
+                                    class="w-100" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Article.Tax"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col-md-3">
+                                <RadzenDropDown @bind-Value=@_selectedTaxId Data=@_activeTaxes
+                                    TextProperty="LongDescription" ValueProperty="Id" Style="display: block"
+                                    Name="Tax" />
+                                <RadzenRequiredValidator Component="Tax" Text="@Loc["Text.Required"]" Popup="false" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Article.Price"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col">
+                                <RadzenNumeric Min="0" Format="#0.00" @bind-Value=@_model.Price Name="Price"
+                                    class="w-10" /> @PriceHelper.ISOCurrencySymbol()
+                                <RadzenRequiredValidator Component="Price" Text="@Loc["Text.Required"]" Popup="false" />
+                            </div>
+                        </div>
+
+                        <div class="ms-auto text-end mt-1">
+                            <RadzenButton Click="@SaveClick" ButtonType="ButtonType.Button" Text="@Loc["Button.Save"]" Icon="done"
+                                ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Medium" />
+                            <RadzenButton Click="@CancelClick" Text="@Loc["Button.Cancel"]" Icon="clear"
+                                ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Medium" />
+                        </div>
+                    </RadzenTemplateForm>
+                </RadzenCard>
+            </div>
+        </div>
+    </ChildContent>
+</Loading>

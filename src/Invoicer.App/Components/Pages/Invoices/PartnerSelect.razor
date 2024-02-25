@@ -1,0 +1,42 @@
+﻿@inherits TableViewPage<Models.Partner>
+@attribute [StreamRendering(true)]
+
+<Loading Condition="@(() => _items is null)">
+    <ChildContent>
+
+        <div class="row mb-1">
+            <div class="col">
+                <SearchBox OnSearch=@OnSearch />
+            </div>
+        </div>
+
+        <RadzenDataGrid @ref="_grid" Count="@_count" Data="@_items"
+            PagerPosition="PagerPosition.TopAndBottom" LoadData="@LoadData" AllowSorting="true" AllowFiltering="false"
+            AllowPaging="true" PageSize="50" RowSelect="() => {}" Responsive="true"
+            PagerHorizontalAlign="HorizontalAlign.Center" TItem="Models.Partner">
+            <Columns>
+                <RadzenDataGridColumn TItem="Models.Partner" Property="Id" Filterable="false" Title="ID" Frozen="true"
+                    Width="40px" TextAlign="TextAlign.Center" />
+                <RadzenDataGridColumn TItem="Models.Partner" Property="Code" Title="@Loc["Partner.Code"]"
+                    Width="80px" />
+                <RadzenDataGridColumn TItem="Models.Partner" Property="Name" Title="@Loc["Partner.Name"]" />
+                <RadzenDataGridColumn TItem="Models.Partner" Property="Address" Title="@Loc["Partner.Address"]"
+                    Width="160px" />
+                <RadzenDataGridColumn TItem="Models.Partner" Property="City" Title="@Loc["Partner.City"]"
+                    Width="160px" />
+                <RadzenDataGridColumn TItem="Models.Partner" Property="PostalCode" Title="@Loc["Partner.PostalCode"]"
+                    Width="160px" />
+
+                <RadzenDataGridColumn TItem="Models.Partner" Title="@Loc["Text.Actions"]" Width="160px" Sortable="false"
+                    Filterable="false" TextAlign="TextAlign.Center">
+                    <Template Context="detail">
+                        <RadzenButton Text="@Loc["Button.Select"]" Click="(e) => SelectButtonClick(e, detail.Id)"
+                            Size="ButtonSize.Small" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+
+    </ChildContent>
+</Loading>

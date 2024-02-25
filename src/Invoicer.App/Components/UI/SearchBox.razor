@@ -1,0 +1,10 @@
+﻿<RadzenFormField Variant="Variant.Outlined" Text=@Loc["Text.Search"] class="rz-form-field-search">
+    <ChildContent>
+        <RadzenTextBox @bind-Value=@_searchText Change=@OnChange @oninput=@OnInput />
+    </ChildContent>
+    <End>
+        <RadzenButton ButtonType="ButtonType.Button" Click=@(e => ClearButtonClick(e)) 
+            Icon="clear" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.ExtraSmall" />
+    </End>
+</RadzenFormField>
+

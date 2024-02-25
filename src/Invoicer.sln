@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invoicer.App", "Invoicer.App\Invoicer.App.csproj", "{2120593F-D921-4476-AE25-3F5DC96EB7F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invoicer.Data", "Invoicer.Data\Invoicer.Data.csproj", "{A644309A-6360-4A0B-9441-9441E5D9F338}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Invoicer.Migrations", "Invoicer.Migrations", "{DB6875D7-B295-4C8E-980D-9DBFE2515097}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invoicer.Sqlite", "Invoicer.Migrations\Invoicer.Sqlite\Invoicer.Sqlite.csproj", "{4274F756-EE4A-445C-BB7A-5C6549605F39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invoicer.Postgres", "Invoicer.Migrations\Invoicer.Postgres\Invoicer.Postgres.csproj", "{49D0A72B-AF04-4E8A-8777-177514C1EC54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2120593F-D921-4476-AE25-3F5DC96EB7F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2120593F-D921-4476-AE25-3F5DC96EB7F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2120593F-D921-4476-AE25-3F5DC96EB7F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2120593F-D921-4476-AE25-3F5DC96EB7F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A644309A-6360-4A0B-9441-9441E5D9F338}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A644309A-6360-4A0B-9441-9441E5D9F338}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A644309A-6360-4A0B-9441-9441E5D9F338}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A644309A-6360-4A0B-9441-9441E5D9F338}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F1A5952-6B37-4947-9B2B-6B8FE80B88F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F1A5952-6B37-4947-9B2B-6B8FE80B88F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F1A5952-6B37-4947-9B2B-6B8FE80B88F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F1A5952-6B37-4947-9B2B-6B8FE80B88F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10585971-54AC-47DF-9DC7-7BD1D9783786}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10585971-54AC-47DF-9DC7-7BD1D9783786}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10585971-54AC-47DF-9DC7-7BD1D9783786}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10585971-54AC-47DF-9DC7-7BD1D9783786}.Release|Any CPU.Build.0 = Release|Any CPU
+		{675474E5-4AB4-42CB-AC7A-D975A56DA081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{675474E5-4AB4-42CB-AC7A-D975A56DA081}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{675474E5-4AB4-42CB-AC7A-D975A56DA081}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{675474E5-4AB4-42CB-AC7A-D975A56DA081}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4274F756-EE4A-445C-BB7A-5C6549605F39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4274F756-EE4A-445C-BB7A-5C6549605F39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4274F756-EE4A-445C-BB7A-5C6549605F39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4274F756-EE4A-445C-BB7A-5C6549605F39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49D0A72B-AF04-4E8A-8777-177514C1EC54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49D0A72B-AF04-4E8A-8777-177514C1EC54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49D0A72B-AF04-4E8A-8777-177514C1EC54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49D0A72B-AF04-4E8A-8777-177514C1EC54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4274F756-EE4A-445C-BB7A-5C6549605F39} = {DB6875D7-B295-4C8E-980D-9DBFE2515097}
+		{49D0A72B-AF04-4E8A-8777-177514C1EC54} = {DB6875D7-B295-4C8E-980D-9DBFE2515097}
+	EndGlobalSection
+EndGlobal

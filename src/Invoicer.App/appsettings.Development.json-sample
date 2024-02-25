@@ -1,0 +1,12 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "Sqlite" : "Data Source=../../data/invoicer.db",
+    "Postgres" : "User ID=postgres;Password=postgres;Server=playbox;Port=5432;Database=invoicer;"
+  }
+}

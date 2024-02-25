@@ -1,0 +1,95 @@
+﻿@page "/Account/Manage/Email"
+
+@using System.ComponentModel.DataAnnotations
+@using System.Text
+@using System.Text.Encodings.Web
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.WebUtilities
+@using Invoicer.Models
+
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject IdentityUserAccessor UserAccessor
+@inject NavigationManager NavigationManager
+@inject IStringLocalizer<I18N> Loc
+
+<PageTopTitle Text=@Loc["Profile.Text.Email"] />
+
+<StatusMessage Message="@message"/>
+<div class="row">
+    <div class="col-md-6">
+        <EditForm Model="Input" FormName="change-email" OnValidSubmit="OnValidSubmitAsync" method="post">
+            <DataAnnotationsValidator />
+            <div class="form-floating mb-3 input-group login-form">
+                <input type="text" value="@email" class="form-control" disabled />
+                <div class="input-group-append">
+                    <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
+                </div>
+                <label for="email" class="form-label">@Loc["Profile.Text.Email"]</label>
+            </div>
+            <div class="form-floating mb-3 login-form">
+                <InputText @bind-Value="Input.NewEmail" class="form-control" autocomplete="email" />
+                <label for="new-email" class="form-label">@Loc["Profile.Text.NewEmail"]</label>
+                <ValidationMessage For="() => Input.NewEmail" class="text-danger" />
+            </div>
+            <RzButton ButtonType="ButtonType.Submit" Icon="done" Text=@Loc["Profile.Text.ChangeEmail"] />
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private string? message;
+    private ApplicationUser user = default!;
+    private string? email;
+
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    [SupplyParameterFromForm(FormName = "change-email")]
+    private InputModel Input { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await UserAccessor.GetRequiredUserAsync(HttpContext);
+        email = await UserManager.GetEmailAsync(user);
+
+        Input.NewEmail ??= email;
+    }
+
+    private async Task OnValidSubmitAsync()
+    {
+        if (Input.NewEmail is null || Input.NewEmail == email)
+        {
+            message = Loc["Profile.Text.EmailUnchanged"];
+            return;
+        }
+
+        var code = await UserManager.GenerateChangeEmailTokenAsync(user, Input.NewEmail);
+        var result = await UserManager.ChangeEmailAsync(user, Input.NewEmail, code);
+        if (!result.Succeeded)
+        {
+            message = Loc["Profile.Text.ErrorChangingEmail"];
+            return;
+        }
+
+        // In our UI email and user name are one and the same, so when we update the email
+        // we need to update the user name.
+        var setUserNameResult = await UserManager.SetUserNameAsync(user, Input.NewEmail);
+        if (!setUserNameResult.Succeeded)
+        {
+            message = Loc["Profile.Text.ErrorChangingUsername"];
+            return;
+        }
+
+        await SignInManager.RefreshSignInAsync(user);
+        NavigationManager.Refresh();
+    }
+
+    private sealed class InputModel
+    {
+        [Required]
+        [EmailAddress]
+        [Display(Name = "New email")]
+        public string? NewEmail { get; set; }
+    }
+}

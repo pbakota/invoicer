@@ -1,0 +1,66 @@
+﻿@page "/taxes/edit/{_id:int?}"
+@inherits AddEditPage<Models.Tax>
+
+<Loading Condition="@(() => _model is null)">
+    <ChildContent>
+    <div class="d-flex justify-content-center">
+        <div class="container mt-3">
+            <RadzenCard class="w-100 mb-4 rz-shadow-7" Variant="Variant.Outlined">
+                <PageTopTitle Text=@TopRowPageTitle />
+
+                <RadzenTemplateForm TItem="Models.Tax" Data=@_model InvalidSubmit=@OnInvalidSubmit Submit=@SaveClick>
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            <RadzenLabel class="fw-bold" Text="@Loc["Tax.LongDescription"]"
+                                Variant="Variant.Outlined" />
+                        </div>
+                        <div class="col">
+                            <RadzenTextBox style="display: block" @bind-Value=@_model.LongDescription Name="LongDesc"
+                                class="w-100" />
+                            <RadzenRequiredValidator Component="LongDesc" Text="@Loc["Required"]" Popup="false" />
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            <RadzenLabel class="fw-bold" Text="@Loc["Tax.ShortDescription"]"
+                                Variant="Variant.Outlined" />
+                        </div>
+                        <div class="col">
+                            <RadzenTextBox style="display: block" @bind-Value=@_model.ShortDescription Name="ShortDesc"
+                                class="w-100" />
+                            <RadzenRequiredValidator Component="ShortDesc" Text="@Loc["Required"]" Popup="false" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            <RadzenLabel class="fw-bold" Text="@Loc["Tax.Rate"]" Variant="Variant.Outlined" />
+                        </div>
+                        <div class="col">
+                            <RadzenNumeric Min="0" Max="100" Format="#0.00" Step="0.5" @bind-Value=@_model.Rate
+                                Name="Rate" class="w-10" />
+                            <RadzenRequiredValidator Component="Rate" Text="@Loc["Required"]" Popup="false" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            <RadzenLabel class="fw-bold" Text="@Loc["Text.Active"]" Component="active" />
+                        </div>
+                        <div class="col">
+                            <RadzenSwitch @bind-Value=@_model.Active Name="active" />
+                        </div>
+                    </div>
+
+                    <div class="text-end mt-1">
+                        <RadzenButton ButtonType="ButtonType.Submit" Text="@Loc["Button.Save"]" Icon="done"
+                            ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Medium" />
+                        <RadzenButton Click="@CancelClick" Text="@Loc["Button.Cancel"]" Icon="clear"
+                            ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Medium" />
+                    </div>
+                </RadzenTemplateForm>
+            </RadzenCard>
+        </div>
+    </div>
+    </ChildContent>
+</Loading>

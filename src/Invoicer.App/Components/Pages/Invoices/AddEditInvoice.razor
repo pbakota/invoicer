@@ -1,0 +1,168 @@
+﻿@page "/invoices/edit/{_id:int?}"
+@inherits AddEditPage<Models.Invoice>
+
+<Loading Condition="@(() => _model is null)">
+    <ChildContent>
+
+        <div class="d-flex justify-content-center">
+            <div class="container mt-3">
+                <PageTopTitle Text=@TopRowPageTitle />
+
+                <RadzenCard class="w-100 mb-4 rz-shadow-7" Variant="Variant.Outlined" >
+                    <RadzenTemplateForm @ref="_form" TItem="Models.Invoice" Data=@_model InvalidSubmit=@OnInvalidSubmit Submit=@SaveClick>
+
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Invoice.Partner"]" Variant="Variant.Outlined"/>
+                            </div>
+                            <div class="col">
+                                <RadzenFormField Variant="Variant.Outlined" class="w-100 rz-form-field-partner">
+                                    <Start>
+                                        <RadzenButton ButtonType="ButtonType.Button" Text="@Loc["Invoice.Partner.Select"]" Click=@(e => SelectPartnerButtonClick(e)) 
+                                            Icon="people" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Small" />
+                                    </Start>
+                                    <ChildContent>
+                                        <RadzenTextBox Disabled="true" Name="Partner" TextStyle="TextStyle.Body1" @bind-Value="@_partnerInfo" />
+                                    </ChildContent>
+                                </RadzenFormField>
+                                <RadzenRequiredValidator Component="Partner" Text="@Loc["Text.Required"]" Popup="false" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Invoice.Number"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col">
+                                <RadzenNumeric Name="NumberId" @bind-Value=@_model.NumberId />
+                                <RadzenRequiredValidator Component="NumberId" Text="@Loc["Text.Required"]" Popup="false" />
+                            </div>
+
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Invoice.DateOfIssue"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col">
+                                <RadzenDatePicker @bind-Value=@_model.DateOfIssue ShowTime="true" ShowSeconds="false"
+                                    HoursStep="1.5" MinutesStep="5" SecondsStep="10" DateFormat="yyyy-MM-dd HH:mm"
+                                    Name="DateOfIssue" />
+                                <RadzenRequiredValidator Component="DateOfIssue" Text="@Loc["Text.Required"]" Popup="false" />
+                            </div>
+
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Invoice.DateOfTraffic"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col">
+                                <RadzenDatePicker @bind-Value=@_model.DateOfTraffic ShowTime="true" ShowSeconds="false"
+                                    HoursStep="1.5" MinutesStep="5" SecondsStep="10" DateFormat="yyyy-MM-dd HH:mm"
+                                    Name="DateOfTraffic" />
+                                <RadzenRequiredValidator Component="DateOfTraffic" Text="@Loc["Text.Required"]" Popup="false" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Invoice.TypeOfPayment"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col">
+                                <RadzenDropDown @bind-Value=@_selectedPayment Data=@_paymentMethods Style="display: block" Name="TypeOfPayment" />
+                                <RadzenRequiredValidator Component="TypeOfPayment" Text="@Loc["Text.Required"]" Popup="false" />
+                            </div>
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Invoice.PlaceOfIssue"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col">
+                                <RadzenTextBox Name="PlaceOfIssue" style="display: block" @bind-Value=@_model.PlaceOfIssue class="w-100" />
+                                <RadzenRequiredValidator Component="PlaceOfIssue" Text="@Loc["Text.Required"]" Popup="false" />
+                            </div>
+
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Invoice.PlaceOfTraffic"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col">
+                                <RadzenTextBox Name="PlaceOfTraffic" style="display: block" @bind-Value=@_model.PlaceOfTraffic class="w-100" />
+                                <RadzenRequiredValidator Component="PlaceOfTraffic" Text="@Loc["Text.Required"]" Popup="false" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-1 d-flex align-items-stretch">
+                                <RadzenButton Click=@(e => SelectArticleButtonClick(e)) Text="@Loc["Button.Select"]" Icon="category"
+                                    ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Medium" class="rz-button-invoice"/>
+                            </div>
+                            <div class="col">
+                                <ArticleEdit  @ref=_articleEdit />
+                            </div>
+                            <div class="col-1 d-flex align-items-stretch">
+                                <RadzenButton Click=@(e => AddItemButtonClick(e)) Text="@Loc["Button.Add"]" Icon="add"
+                                    ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Medium"  class="rz-button-invoice"/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                <CascadingValue Value="_items">
+                                    <InvoiceItems @ref=_invoiceItems DataChanged="(items) => CalculateSum(items)"/>
+                                </CascadingValue>
+                            </div>
+                        </div>
+
+                        <div class="row mb-0 d-flex align-items-center">
+                            <div class="col-10 text-end">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Invoice.Subtotal"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col-2 text-end">
+                                <RadzenText TextStyle="TextStyle.H6" Text="@_subtotal" >0.00</RadzenText>
+                            </div>
+                        </div>
+
+                        @if(_model.InvoiceType == Models.InvoiceType.NORMAL) {
+                        <div class="row mb-0 d-flex align-items-center">
+                            <div class="col-10 text-end">
+                                <RadzenButton Icon="assignment" Click=@(e => SelectPrepayedButtonClick(e)) ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Small" MouseEnter="(e) => ShowAvansTooltip(e)" />
+                                <RadzenLabel class="fw-bold" Text="@Loc["Invoice.Avans"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col-2 text-end m-0">
+                                <RadzenText TextStyle="TextStyle.H6" Text="@_avans">0.00</RadzenText>
+                            </div>
+                        </div>
+                        }
+
+                        <div class="row">
+                            <div class="offset-8 col-4">
+                                <hr/>
+                            </div>
+                        </div>
+
+                        <div class="row mb-0 d-flex align-items-center">
+                            <div class="col-10 text-end">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Invoice.Total"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col-2 text-end">
+                                <RadzenText TextStyle="TextStyle.H5" Text="@_total">0.00</RadzenText>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <RadzenLabel class="fw-bold" Text="@Loc["Invoice.Text"]" Variant="Variant.Outlined" />
+                            </div>
+                            <div class="col">
+                                <RadzenTextArea style="display: block" Rows="3" @bind-Value=@_model.Text Name="Text" class="w-100" />
+                            </div>
+                        </div>
+
+                        <div class="row ms-auto mt-1">
+                            <div class="col text-end">
+                                <RadzenButton ButtonType="ButtonType.Button" Click="(e) => SaveAndPrint(e)" Text="@Loc["Button.SaveAndPrint"]" Icon="print" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Medium" />
+                                <RadzenButton ButtonType="ButtonType.Submit" Text="@Loc["Button.Save"]" Icon="done" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Medium" />
+                                <RadzenButton Click="@CancelClick" Text="@Loc["Button.Cancel"]" Icon="clear" ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Medium" />
+                            </div>
+                        </div>
+
+                    </RadzenTemplateForm>
+                </RadzenCard>
+            </div>
+        </div>
+
+    </ChildContent>
+</Loading>

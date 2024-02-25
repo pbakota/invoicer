@@ -1,0 +1,45 @@
+﻿@page "/articles"
+@inherits TableViewPage<Models.Article>
+@attribute [StreamRendering(true)]
+
+<PageTopTitle Text=@Loc["Article.Title"] />
+
+<Loading Condition="@(() => _items is null)">
+    <ChildContent>
+
+        <SearchBar AddClick=@(e => CreateButtonClick(e)) AddText="@Loc["Article.New"]" AddVisible=true
+            OnSearch=@OnSearch />
+
+        <RadzenDataGrid @ref="_grid" Count="@_count" Data="@_items"
+            PagerPosition="PagerPosition.TopAndBottom" LoadData="@LoadData" AllowSorting="true" AllowFiltering="false"
+            AllowPaging="true" PageSize="50" RowSelect="() => {}" Responsive="true"
+            PagerHorizontalAlign="HorizontalAlign.Center" TItem="Models.Article">
+            <Columns>
+                <RadzenDataGridColumn TItem="Models.Article" Property="Id" Filterable="false" Title="ID" Frozen="true"
+                    Width="60px" TextAlign="TextAlign.Center" />
+                <RadzenDataGridColumn TItem="Models.Article" Property="Code" Title="@Loc["Article.Code"]"
+                    Width="120px" />
+                <RadzenDataGridColumn TItem="Models.Article" Property="Name" Title="@Loc["Article.Name"]" />
+                <RadzenDataGridColumn TItem="Models.Article" Property="Tax.ShortDescription" Title="@Loc["Article.Tax"]"
+                    Width="80px" TextAlign="TextAlign.End" />
+                <RadzenDataGridColumn TItem="Models.Article" Property="UOM" Title="@Loc["Article.UOM"]" Width="80px" />
+                <RadzenDataGridColumn TItem="Models.Article" Property="Price" Title="@Loc["Article.Price"]"
+                    Width="180px" TextAlign="TextAlign.End">
+                    <Template Context="detail">
+                        @String.Format("{0:N2} {1}", detail.Price, AppConstants.VALUTA)
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Models.Article" Title="@Loc["Text.Actions"]" Width="180px" Sortable="false"
+                    Filterable="false" TextAlign="TextAlign.Center">
+                    <Template Context="detail">
+                        <RadzenButton Text="@Loc["Button.Edit"]" Click="(e) => EditButtonClick(e, detail.Id)"
+                            Size="ButtonSize.Small" />
+                        <RadzenButton Text="@Loc["Button.Delete"]" Click="(e) => DeleteButtonClick(e, detail.Id)"
+                            ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Small" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+    </ChildContent>
+</Loading>

@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="Invoicer.App.styles.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="stylesheet" href="_content/Radzen.Blazor/css/software-base.css">
+    <HeadOutlet />
+</head>
+
+<body>
+    <Routes @rendermode="@_rendermode" />
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
+    <!-- Workaround for .NET 8 and Electron.NET -->
+    <script>process = undefined;</script>
+    <script src="_framework/blazor.web.js"></script>
+
+    <script>
+      window.downloadPdfFromStream = async (contentStreamReference) => {
+        const arrayBuffer = await contentStreamReference.arrayBuffer();
+        const blob = new Blob([arrayBuffer], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        window.open(url, "_blank");
+      }
+    </script>    
+</body>
+
+</html>
+
+@inject NavigationManager NavigationManager
+@code
+{
+    InteractiveServerRenderMode? _rendermode {
+        get {
+            var renderMode = RenderMode.InteractiveServer;
+            var uri = new Uri(NavigationManager.Uri);
+            if(uri.PathAndQuery.StartsWith("/account/", StringComparison.InvariantCultureIgnoreCase))
+            {
+                // NOTE: For the login page the render mode must not be interactive
+                renderMode = null;
+            }
+            return renderMode;
+        }
+    }
+}

@@ -1,0 +1,23 @@
+﻿@inject IStringLocalizer<I18N> Loc
+
+@if(Condition is not null && Condition())
+{
+    <div class="position-absolute top-50 start-50 translate-middle">
+        <RadzenProgressBarCircular ShowValue="true" Mode="ProgressBarMode.Indeterminate"
+            Size="ProgressBarCircularSize.Large">
+            <Template><span style="font-size: 10pt">@Loc["Text.Loading"]</span></Template>
+        </RadzenProgressBarCircular>
+    </div>
+}
+else
+{
+    @ChildContent
+}
+
+@code
+{
+    [Parameter]
+    public Func<bool>? Condition { get; set; }
+    [Parameter]
+	public RenderFragment ChildContent { get; set; } = null!;
+}

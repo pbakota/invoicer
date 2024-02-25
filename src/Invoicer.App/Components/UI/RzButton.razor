@@ -1,0 +1,18 @@
+﻿<button type=@ButtonType class="rz-button rz-button-md rz-variant-filled rz-primary rz-shade-default">
+    <span class="rz-button-box">
+        <i class="rz-button-icon-left rzi">@Icon</i>
+        <span class="rz-button-text">
+            @Text
+        </span>
+    </span>
+</button>
+
+@code
+{
+    [Parameter]
+    public ButtonType ButtonType { get; set; } = ButtonType.Button;
+    [Parameter]
+    public string? Icon { get; set; }
+    [Parameter]
+    public string? Text { get; set; }
+}

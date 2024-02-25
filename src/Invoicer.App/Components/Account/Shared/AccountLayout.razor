@@ -1,0 +1,44 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@inject IStringLocalizer<I18N> Loc
+
+
+@if (HttpContext is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+<div class="container-fluid ps-md-0">
+    <div class="row g-0">
+        <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+        <div class="col-md-8 col-lg-6">
+            <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9 col-lg-8 mx-auto">
+                            @Body
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>                                
+}
+
+@code {
+    [CascadingParameter]
+    private HttpContext? HttpContext { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (HttpContext is null)
+        {
+            // If this code runs, we're currently rendering in interactive mode, so there is no HttpContext.
+            // The identity pages need to set cookies, so they require an HttpContext. To achieve this we
+            // must transition back from interactive mode to a server-rendered page.
+            NavigationManager.Refresh(forceReload: true);
+        }
+    }
+}

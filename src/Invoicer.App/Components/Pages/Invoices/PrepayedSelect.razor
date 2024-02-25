@@ -1,0 +1,51 @@
+﻿@inherits TableViewPage<Models.Invoice>
+@attribute [StreamRendering(true)]
+
+<Loading Condition="@(() => _items is null)">
+    <ChildContent>
+
+        <div class="row mb-1">
+            <div class="col">
+                <SearchBox OnSearch=@OnSearch />
+            </div>
+        </div>
+
+        <RadzenDataGrid @ref="_grid" Count="@_count" Data="@_items"
+            PagerPosition="PagerPosition.TopAndBottom" LoadData="@LoadData" AllowSorting="true" AllowFiltering="false"
+            AllowPaging="true" PageSize="50" RowSelect="() => {}" Responsive="true"
+            PagerHorizontalAlign="HorizontalAlign.Center" TItem="Models.Invoice">
+            <Columns>
+                <RadzenDataGridColumn TItem="Models.Invoice" Property="Id" Filterable="false" Title="ID" Frozen="true"
+                    Width="60px" />
+                <RadzenDataGridColumn TItem="Models.Invoice" Property="Number" Title="@Loc["Invoice.Number"]"
+                    Width="120px" />
+                <RadzenDataGridColumn TItem="Models.Invoice" Property="Partner.Name" Title="@Loc["Invoice.Partner"]" />
+                <RadzenDataGridColumn TItem="Models.Invoice" Property="DateOfIssue" Title="@Loc["Invoice.DateOfIssue"]"
+                    Width="160px">
+                    <Template Context="c">
+                        @c.DateOfIssue.ToLocalTime()
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Models.Invoice" Property="PlaceOfIssue"
+                    Title="@Loc["Invoice.PlaceOfIssue"]" Width="160px" />
+                <RadzenDataGridColumn TItem="Models.Invoice" Property="TypeOfPayment"
+                    Title="@Loc["Invoice.TypeOfPayment"]" Width="120px" />
+                <RadzenDataGridColumn TItem="Models.Invoice" Property="InvoiceSum" Title="@Loc["InvoiceItem.Amount"]"
+                    Width="160px" TextAlign="TextAlign.End">
+                    <Template Context="c">
+                        @String.Format("{0:N2} {1}", c.InvoiceSum, AppConstants.VALUTA)
+                    </Template>
+                </RadzenDataGridColumn>
+
+                <RadzenDataGridColumn TItem="Models.Invoice" Title="@Loc["Text.Actions"]" Width="160px" Sortable="false"
+                    Filterable="false" TextAlign="TextAlign.Center">
+                    <Template Context="detail">
+                        <RadzenButton Text="@Loc["Button.Select"]" Click="(e) => SelectButtonClick(e, detail.Id)"
+                            Size="ButtonSize.Small" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+    </ChildContent>
+</Loading>

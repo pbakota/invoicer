@@ -1,0 +1,219 @@
+﻿@page "/settings"
+@attribute [StreamRendering(true)]
+@attribute [Authorize(Roles = "admin")]
+
+<PageTopTitle Text=@Loc["Settings.Title"] />
+
+<Loading Condition="@(() => _model is null)">
+    <ChildContent>
+
+        <RadzenTemplateForm @ref="_form" TItem="Models.Settings" Data=@_model Submit=@SaveClick>
+
+            <RadzenFieldset AllowCollapse="false">
+
+                <HeaderTemplate>
+                    <span class="d-inline-flex align-items-center align-middle">
+                        <RadzenIcon Icon="account_box" class="me-1" /><b>@Loc["Settings.Company.Title"]</b>
+                    </span>
+                </HeaderTemplate>
+                <ChildContent>
+
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            <RadzenLabel class="fw-bold" Text="@Loc["Settings.Company.Name"]"
+                                Variant="Variant.Outlined" />
+                        </div>
+                        <div class="col">
+                            <RadzenTextBox style="display: block" @bind-Value=@_model.Company.Name Name="CompanyName"
+                                class="w-100" />
+                            <RadzenRequiredValidator Component="CompanyName" Text="@Loc["Text.Required"]"
+                                Popup="false" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            <RadzenLabel class="fw-bold" Text="@Loc["Settings.Company.Address"]"
+                                Variant="Variant.Outlined" />
+                        </div>
+                        <div class="col">
+                            <RadzenTextBox style="display: block" @bind-Value=@_model.Company.Address class="w-100" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="row mb-3">
+                                <div class="col-md-2">
+                                    <RadzenLabel class="fw-bold" Text="@Loc["Settings.Company.City"]"
+                                        Variant="Variant.Outlined" />
+                                </div>
+                                <div class="col">
+                                    <RadzenTextBox style="display: block" @bind-Value=@_model.Company.City
+                                        class="w-100" />
+                                </div>
+
+                                <div class="col-md-2">
+                                    <RadzenLabel class="fw-bold" Text="@Loc["Settings.Company.PostalCode"]"
+                                        Variant="Variant.Outlined" />
+                                </div>
+                                <div class="col">
+                                    <RadzenTextBox style="display: block" @bind-Value=@_model.Company.PostalCode
+                                        class="w-100" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="row mb-3">
+                                <div class="col-md-2">
+                                    <RadzenLabel class="fw-bold" Text="@Loc["Settings.Company.PIB"]"
+                                        Variant="Variant.Outlined" />
+                                </div>
+                                <div class="col">
+                                    <RadzenTextBox style="display: block" @bind-Value=@_model.Company.PIB
+                                        class="w-100" />
+                                </div>
+
+                                <div class="col-md-2">
+                                    <RadzenLabel class="fw-bold" Text="@Loc["Settings.Company.MaticniBroj"]"
+                                        Variant="Variant.Outlined" />
+                                </div>
+                                <div class="col">
+                                    <RadzenTextBox style="display: block" @bind-Value=@_model.Company.MaticniBroj
+                                        class="w-100" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="row mb-3">
+                                <div class="col-md-2">
+                                    <RadzenLabel class="fw-bold" Text="@Loc["Settings.Company.Phone"]"
+                                        Variant="Variant.Outlined" />
+                                </div>
+                                <div class="col">
+                                    <RadzenTextBox style="display: block" @bind-Value=@_model.Company.Phone
+                                        class="w-100" />
+                                </div>
+                                <div class="col-md-2">
+                                    <RadzenLabel class="fw-bold" Text="@Loc["Settings.Company.Email"]"
+                                        Variant="Variant.Outlined" />
+                                </div>
+                                <div class="col">
+                                    <RadzenTextBox style="display: block" @bind-Value=@_model.Company.Email
+                                        class="w-100" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="row mb-3">
+                                <div class="col-md-2">
+                                    <RadzenLabel class="fw-bold" Text="@Loc["Settings.Company.BankAccount"]"
+                                        Variant="Variant.Outlined" />
+                                </div>
+                                <div class="col">
+                                    <RadzenTextBox style="display: block" @bind-Value=@_model.Company.BankAccount
+                                        class="w-100" />
+                                </div>
+                                <div class="col-md-2">
+                                    <RadzenLabel class="fw-bold" Text="@Loc["Settings.Company.BankName"]"
+                                        Variant="Variant.Outlined" />
+                                </div>
+                                <div class="col">
+                                    <RadzenTextBox style="display: block" @bind-Value=@_model.Company.BankName
+                                        class="w-100" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ChildContent>
+            </RadzenFieldset>
+
+            <RadzenFieldset AllowCollapse="false">
+
+                <HeaderTemplate>
+                    <span class="d-inline-flex align-items-center align-middle">
+                        <RadzenIcon Icon="account_box" class="me-1" /><b>@Loc["Settings.Settings.Title"]</b>
+                    </span>
+                </HeaderTemplate>
+                <ChildContent>
+                    <div class="row">
+                        <div class="col">
+                            <div class="row mb-3">
+                                <div class="col-md-2">
+                                    <RadzenLabel class="fw-bold" Text="@Loc["Settings.PlaceOfIssue"]"
+                                        Variant="Variant.Outlined" />
+                                </div>
+                                <div class="col">
+                                    <RadzenTextBox style="display: block" @bind-Value=@_model.PlaceOfIssue
+                                        class="w-100" />
+                                </div>
+
+                                <div class="col-md-2">
+                                    <RadzenLabel class="fw-bold" Text="@Loc["Settings.PlaceOfTraffic"]"
+                                        Variant="Variant.Outlined" />
+                                </div>
+                                <div class="col">
+                                    <RadzenTextBox style="display: block" @bind-Value=@_model.PlaceOfTraffic
+                                        class="w-100" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            <RadzenLabel class="fw-bold" Text="@Loc["Settings.InvoiceText"]"
+                                Variant="Variant.Outlined" />
+                        </div>
+                        <div class="col">
+                            <RadzenTextArea style="display: block" Rows="4" @bind-Value=@_model.InvoiceInfoText
+                                Name="Text" class="w-100" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            <RadzenLabel class="fw-bold" Text="@Loc["Settings.PrintIPSRQ"]" Component="printIPS" />
+                        </div>
+                        <div class="col-md-1 d-flex align-self-center">
+                            <RadzenSwitch @bind-Value=@_model.PrintIPSQRCode Name="printIPS" />
+                        </div>
+                        <div class="col-md-2">
+                            <RadzenLabel class="fw-bold" Text="@Loc["Settings.CodeForPayment"]"
+                                Variant="Variant.Outlined" />
+                        </div>
+                        <div class="col-md-1">
+                            <RadzenNumeric Min="100" Max="999" style="display: block" @bind-Value=@_model.CodeForPayment
+                                class="w-100" />
+                        </div>
+                        <div class="col-md-2">
+                            <RadzenLabel class="fw-bold" Text="@Loc["Settings.HideCanceledInvoice"]"
+                                Variant="Variant.Outlined" />
+                        </div>
+                        <div class="col-md-1">
+                            <RadzenSwitch @bind-Value=@_model.HideStornoInvoice Name="HideStornoInvoice" />
+                        </div>
+                    </div>
+
+                </ChildContent>
+            </RadzenFieldset>
+
+            <div class="row ms-auto mt-1">
+                <div class="col text-end">
+                    <RadzenButton ButtonType="ButtonType.Submit" Text="@Loc["Button.Save"]" Icon="done"
+                        ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Medium" />
+                </div>
+            </div>
+
+        </RadzenTemplateForm>
+    </ChildContent>
+</Loading>

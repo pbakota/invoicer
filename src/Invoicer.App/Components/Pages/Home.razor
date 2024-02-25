@@ -1,0 +1,61 @@
+﻿@page "/"
+
+<PageTopTitle Text="@Loc["Dashboard.Title"]" />
+<Loading Condition="@(() => _loading)">
+    <ChildContent>
+
+        <div class="container">
+            <div class="row">
+                <div class="col mt-3">
+                    <RadzenCard Variant="Variant.Flat">
+                        <RadzenStack Orientation="Orientation.Vertical" JustifyContent="JustifyContent.Start"
+                            Gap="1rem">
+                            <RadzenText TextStyle="TextStyle.H5">@Loc["Dashboard.Partners"]</RadzenText>
+                            <RadzenText TextStyle="TextStyle.H4">@_numberOfPartners</RadzenText>
+                        </RadzenStack>
+                    </RadzenCard>
+                </div>
+                <div class="col mt-3">
+                    <RadzenCard Variant="Variant.Flat">
+                        <RadzenStack Orientation="Orientation.Vertical" JustifyContent="JustifyContent.Start"
+                            Gap="1rem">
+                            <RadzenText TextStyle="TextStyle.H5">@Loc["Dashboard.Articles"]</RadzenText>
+                            <RadzenText TextStyle="TextStyle.H4">@_numberOfArticles</RadzenText>
+                        </RadzenStack>
+                    </RadzenCard>
+                </div>
+                <div class="col mt-3">
+                    <RadzenCard Variant="Variant.Flat">
+                        <RadzenStack Orientation="Orientation.Vertical" JustifyContent="JustifyContent.Start"
+                            Gap="1rem">
+                            <RadzenText TextStyle="TextStyle.H5">@Loc["Dashboard.Invoices"]</RadzenText>
+                            <RadzenText TextStyle="TextStyle.H4">@_numberOfInvoices</RadzenText>
+                        </RadzenStack>
+                    </RadzenCard>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col">
+                    <h4>@Loc["Dashboard.Revenue"]</h4>
+                    <RadzenChart>
+                        <RadzenColumnSeries Data="@GetRevenue(DateTime.Now.Year-1)" CategoryProperty="Quarter"
+                            Title="@((DateTime.Now.Year-1).ToString())" LineType="LineType.Dashed"
+                            ValueProperty="Revenue">
+                            <RadzenSeriesDataLabels Visible="false" />
+                        </RadzenColumnSeries>
+                        <RadzenColumnSeries Data="@GetRevenue(DateTime.Now.Year)" CategoryProperty="Quarter"
+                            Title="@DateTime.Now.Year.ToString()" LineType="LineType.Dashed" ValueProperty="Revenue">
+                            <RadzenSeriesDataLabels Visible="false" />
+                        </RadzenColumnSeries>
+                        <RadzenColumnOptions Radius="5" />
+                        <RadzenValueAxis Formatter="@FormatAsRSD">
+                            <RadzenGridLines Visible="true" />
+                            <RadzenAxisTitle Text="@Loc["Dashboard.Revenue.Text"]" />
+                        </RadzenValueAxis>
+                    </RadzenChart>
+                </div>
+            </div>
+        </div>
+
+    </ChildContent>
+</Loading>

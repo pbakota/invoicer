@@ -1,0 +1,17 @@
+@page "/restore"
+
+@{
+    #if ELECTRON_APP
+    #pragma warning disable CS0162
+    <PageTopTitle Text=@Loc["Restore.Title"] />
+    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Button" Text="@Loc["Restore.Button.Text"]" Click="RestoreClick" />
+    <RadzenText class="mt-3 rz-text-wrap" TextStyle="TextStyle.Body1">
+        <strong>@Loc["Restore.Text.Warning.Title"]</strong>
+        <p>
+            @Loc["Restore.Text.Warning.Body1"]
+            <br/>
+            @Loc["Restore.Text.Warning.Body2"]
+        </p>
+    </RadzenText>
+    #endif
+}

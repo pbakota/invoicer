@@ -1,0 +1,9 @@
+@page "/backup"
+
+@{
+    #if ELECTRON_APP
+    #pragma warning disable CS0162
+    <PageTopTitle Text=@Loc["Backup.Title"] />
+    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Button" Text="@Loc["Backup.Button.Text"]" Click="BackupClick" />
+    #endif
+}
