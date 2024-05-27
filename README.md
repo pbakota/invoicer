@@ -13,10 +13,10 @@ The application has the following features
 
 - Developed with the latest .NET 8 framework
 - Multi platform support (Linux, Windows and macOS)
-- Multi database support (Postgres and Sqlite3)
+- Multi database support (PostgreSQL and Sqlite3)
 - Deploy as desktop application or SaaS
 - The desktop application is completely working offline and uses SQLite3 database backend
-- The server version uses Postgres 16
+- The server version uses PostgreSQL 16
 - Multilanguage support. Currently, translation to Serbian language. The language is based on browser language settings and forced to be Serbian in the case of desktop application.
 - From desktop application is possible to make backup/restore the offline database.
 - Multi user support with multiple roles ("admin" and "user" currently)
@@ -61,7 +61,7 @@ From the desktop application tou can backup/restore the database
 
 The project also includes all required docker related setups and scrtips. In the "docker" folder you can find the docker-compose.yml and Dockerfile files, please feel free to make changes there to match your environment.
 
-If you want to delploy as SaaS the you should already have Postgres installation, the connection parameters can be found in the config/appsettings.json config file.
+If you want to delploy as SaaS the you should already have PostgreSQL installation, the connection parameters can be found in the config/appsettings.json config file.
 
 
 ## Screen shots
@@ -90,10 +90,16 @@ Making invoice
 Used 3rd party libraries
 
 https://github.com/manuelbl/QrCodeGenerator
+
 https://github.com/ElectronNET/Electron.NET/
+
 https://automapper.org/
+
 https://github.com/wieslawsoltes/Svg.Skia
+
 https://www.radzen.com/
+
 https://www.questpdf.com/
+
 https://github.com/npgsql/efcore.pg
 
